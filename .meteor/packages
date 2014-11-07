@@ -6,3 +6,7 @@
 meteor-platform
 autopublish
 insecure
+http
+jquery
+particle4dev:cheerio
+

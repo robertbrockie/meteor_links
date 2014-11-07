@@ -9,11 +9,18 @@ if (Meteor.isClient) {
 
   Template.link_input.events({
     'click button': function () {
-      var url = document.getElementById("url").value;
       
-      Meteor.call("addLink", url);
+      // get the url we want to save
+      var url = $("#url").val();
 
-      document.getElementById("url").value = 'fuckin done right!';
+      // add url
+      Meteor.call("addLink", url, function(error, result) {
+        // callback for the server to update the name of the website
+        Meteor.call("updateLinkTitle", result, url);
+      });
+
+      // clear input
+      $("#url").val('');
 
       return false;
     }    
@@ -24,22 +31,26 @@ if (Meteor.isClient) {
       Meteor.call("removeLink", this._id);
     }
   })
-
-  Template.link_list.events({
-
-  });
 }
 
 if (Meteor.isServer) {
   Meteor.methods({
     addLink: function (url) {
-      Links.insert({
+      var link = Links.insert({
         url: url,
+        title: '', // we don't know the title yet
         createdAt: new Date()
       });
+
+      return link;
     },
     removeLink: function (id) {
       Links.remove(id);
+    },
+    updateLinkTitle: function (linkId, url) {
+      $ = cheerio.load(HTTP.get(url).content);
+      var title = $('title')
+      Links.update(linkId, { $set: { title: title.text() } });
     }
-  })
+  });
 }
