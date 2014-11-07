@@ -1,15 +1,30 @@
+Links = new Mongo.Collection("links");
+
 if (Meteor.isClient) {
-  // counter starts at 0
   Template.link_input.events({
     'click button': function () {
       var url = document.getElementById("url").value;
-      alert('url: ' + url);
+      
+      Meteor.call("addLink", url);
+
+      document.getElementById("url").value = 'fuckin done right!';
+
+      return false;
     }
+  });
+
+  Template.link_list.events({
+
   });
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
+  Meteor.methods({
+    addLink: function (url) {
+      Links.insert({
+        url: url,
+        createdAt: new Date()
+      });
+    }
+  })
 }

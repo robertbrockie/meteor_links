@@ -6,6 +6,8 @@
   <h1>Meteor Links</h1>
 
   {{> link_input}}
+
+  {{> link_list}}
 </body>
 
 <template name="link_input">
@@ -13,5 +15,19 @@
 </template>
 
 <template name="link_list">
+	<h2>Latest Links</h2>
+	
+	<ul>
+      {{#each links}}
+        {{> link}}
+      {{/each}}
+   	</ul>
+</template>
+
+<template name="link">
+  <li>
+    <span class="text">{{url}}</span>
+	<button class="delete">&times;</button>  
+  </li>
 </template>
 
