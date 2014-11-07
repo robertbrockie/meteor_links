@@ -7,27 +7,23 @@
 
   {{> link_input}}
 
-  {{> link_list}}
+  <h2>Latest Links</h2>
+
+	<ul>
+		{{#each links}}
+			{{> link}}
+		{{/each}}
+	</ul>
 </body>
 
 <template name="link_input">
   <input id="url" type="text" /> <button>Add Link</button>
 </template>
 
-<template name="link_list">
-	<h2>Latest Links</h2>
-	
-	<ul>
-      {{#each links}}
-        {{> link}}
-      {{/each}}
-   	</ul>
-</template>
-
 <template name="link">
   <li>
-    <span class="text">{{url}}</span>
-	<button class="delete">&times;</button>  
+  	<button class="delete">&times;</button>
+    <span class="text">{{url}}</span>  
   </li>
 </template>
 
